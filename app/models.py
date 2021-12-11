@@ -8,8 +8,8 @@ from django.urls import reverse
 
 
 class User(AbstractUser):
-    is_subadmin = models.BooleanField('bikeman status', default=False)
-    is_user = models.BooleanField('Customer status', default=False)
+    is_subadmin = models.BooleanField('Sub Admin User', default=False)
+    is_applicant = models.BooleanField('Applicant Users', default=False)
 
 # Create your models here.
 class PersonalDetails(models.Model):
@@ -32,16 +32,15 @@ class PersonalDetails(models.Model):
     )
    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length = 150)
-    address = models.CharField(max_length = 250)
-    dob = models.DateField("Date of Birth")
-    place_of_birth = models.CharField(max_length = 150)
+    address = models.CharField(max_length = 250, null=True)
+    dob = models.DateField("Date of Birth", null=True)
+    place_of_birth = models.CharField(max_length = 150,null=True)
     state = models.CharField(max_length=1, choices=STATE, default='ABIA')
     education = models.CharField(max_length=1, choices=EDUCATION, default='SCHOOL LEAVING CERTICATE')
     religion = models.CharField(max_length=1, choices=RELIGION, default='ISLAM')
     attend = models.CharField('Which Masjeed or Church do You Attend', max_length=250, blank=True, null=True)
     phone_number = models.PositiveIntegerField()
-    passport = models.ImageField("Passport Photography", upload_to='needy')
+    passport = models.ImageField("Passport Photography", upload_to='applicant', null=True)
     create_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -52,7 +51,7 @@ class PersonalDetails(models.Model):
         verbose_name_plural = "PersonalDetailss"
 
     def __str__(self):
-        return self.name
+        return f'Username: {self.user.username} - Fullname {self.user.get_full_name} '
 
     def get_absolute_url(self):
         return reverse("PersonalDetails_detail", kwargs={"pk": self.pk})

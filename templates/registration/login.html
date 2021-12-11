@@ -1,0 +1,17 @@
+
+
+{% load crispy_forms_tags %}
+        <h4 class="card-title mb-1">{{ user_type }} Signup Page 🚀</h4>
+
+
+
+        <form class="auth-register-form mt-2" method="POST" novalidate>
+          {% csrf_token %}
+          {{ form|crispy }}
+            <button class="btn btn-primary btn-block" type="submit" tabindex="5">Login up</button>
+        </form>
+        
+        <p class="text-center mt-2"><span>I dont have an account?</span><a href="page-auth-login-v2.html"><span>&nbsp;Sign in instead</span></a></p>
+        
+
+    
